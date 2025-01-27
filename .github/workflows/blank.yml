@@ -33,7 +33,7 @@ jobs:
           sudo apt install -y vulkan-tools
           sudo apt install -y gamemode liblz4-dev
           sudo apt install -y libglib2.0-dev libfuse2 patchelf
-          pip install aqtintall --user
+          pip install aqtinstall --user
           aqt install-qt linux desktop 6.7.3 gcc_64 -m qtbase qtmultimedia
           export Qt6_DIR=$HOME/Qt/6.7.3/gcc_64/lib/cmake/Qt6
           export CMAKE_PREFIX_PATH=$Qt6_DIR
