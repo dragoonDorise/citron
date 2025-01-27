@@ -18,12 +18,15 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-          
-      - name: Install aqtinstall
-        run: pip install aqtinstall
 
-      - name: Install Qt6
-        run: aqt install-qt linux desktop 6.5.2 gcc_64 --modules qtbase qtmultimedia -O /home/runner/Qt
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+         version: '6.5.2'
+         host: 'linux'
+         target: 'desktop'
+         arch: 'gcc_64'
+         modules: 'qtbase,qtmultimedia'
         
       - name: Dependencies
         run: |
@@ -53,7 +56,7 @@ jobs:
           -DCITRON_TESTS=OFF \
           -DCITRON_USE_LLVM_DEMANGLE=OFF \
           -DCMAKE_INSTALL_PREFIX=/usr \
-          -DCMAKE_PREFIX_PATH=/home/runner/Qt/6.7.3/gcc_64
+          -DCMAKE_PREFIX_PATH=$Qt6_DIR
           ninja
           
       - name: Build AppImage
