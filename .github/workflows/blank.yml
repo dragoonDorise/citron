@@ -23,6 +23,11 @@ jobs:
           sudo apt update
           sudo apt install ninja-build -y
           sudo apt install build-essential -y
+          sudo apt install -y cmake python3 perl pkg-config libudev-dev libusb-1.0-0-dev zlib1g-dev
+          sudo apt install -y libboost-context-dev
+          sudo apt install -y libssl-dev
+          sudo apt install -y vulkan-tools
+          sudo apt install -y gamemode liblz4-dev
 
       - name: Git clone
         run: |
