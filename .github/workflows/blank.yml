@@ -18,6 +18,12 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
+      - name: Dependencies
+        run: |
+          sudo apt update
+          sudo apt install ninja-build -y
+          sudo apt install build-essential -y
+
       - name: Git clone
         run: |
           cd $HOME
