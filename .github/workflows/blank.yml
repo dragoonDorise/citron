@@ -21,6 +21,10 @@ jobs:
       - name: Dependencies
         run: |
           sudo apt update
+          sudo apt install -y software-properties-common
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt install -y cmake
+          sudo apt install -y libboost-dev libboost-all-dev
           sudo apt install ninja-build -y
           sudo apt install build-essential -y
           sudo apt install -y cmake python3 perl pkg-config libudev-dev libusb-1.0-0-dev zlib1g-dev
