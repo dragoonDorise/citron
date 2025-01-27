@@ -33,21 +33,27 @@ jobs:
           sudo apt install -y vulkan-tools
           sudo apt install -y gamemode liblz4-dev
           sudo apt install -y libglib2.0-dev libfuse2 patchelf
+          
+      - name: Install aqtinstall
+        run: pip install aqtinstall
 
+      - name: Install Qt6
+        run: aqt install-qt linux desktop 6.7.3 gcc_64 --modules qtbase qtmultimedia -O /home/runner/Qt
 
       - name: Git clone
         run: |
           cd $HOME
           git clone --recursive https://git.citron-emu.org/Citron/Citron.git
 
-      - name: Build CMAKE
+      - name: Build project with CMake
         run: |
-          cd $HOME/Citron
-          mkdir build
-          cd build
-          cmake .. -GNinja -DCITRON_USE_BUNDLED_VCPKG=ON -DCITRON_TESTS=OFF -DCITRON_USE_LLVM_DEMANGLE=OFF -DCMAKE_INSTALL_PREFIX=/usr
+          cmake .. -GNinja \
+          -DCITRON_USE_BUNDLED_VCPKG=ON \
+          -DCITRON_TESTS=OFF \
+          -DCITRON_USE_LLVM_DEMANGLE=OFF \
+          -DCMAKE_INSTALL_PREFIX=/usr \
+          -DCMAKE_PREFIX_PATH=/home/runner/Qt/6.7.3/gcc_64
           ninja
-          cd ..
           
       - name: Build AppImage
         run: |
