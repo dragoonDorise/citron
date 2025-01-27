@@ -1,0 +1,40 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-linux:
+    # To enable auto publishing to github, update your electron publisher
+    # config in package.json > "build" and remove the conditional below
+    #if: ${{ github.repository_owner === 'electron-react-boilerplate' }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Git clone
+        run: |
+          cd $HOME
+          git clone --recursive https://git.citron-emu.org/Citron/Citron.git
+
+      - name: Build
+        run: |
+          cd $HOME/Citron
+          mkdir build
+          cd build
+          cmake .. -GNinja -DCITRON_USE_BUNDLED_VCPKG=ON -DCITRON_TESTS=OFF -DCITRON_USE_LLVM_DEMANGLE=OFF -DCMAKE_INSTALL_PREFIX=/usr
+          ninja
+          cd ..
+          $HOME/Citron/appimage-builder.sh citron $HOME/Citron/build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EmuDeck-AppImage
+          path: '**/*.AppImage'
