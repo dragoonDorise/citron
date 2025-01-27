@@ -18,6 +18,13 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
+          
+      - name: Install aqtinstall
+        run: pip install aqtinstall
+
+      - name: Install Qt6
+        run: aqt install-qt linux desktop 6.5.2 gcc_64 --modules qtbase qtmultimedia -O /home/runner/Qt
+        
       - name: Dependencies
         run: |
           sudo apt update
@@ -33,12 +40,6 @@ jobs:
           sudo apt install -y vulkan-tools
           sudo apt install -y gamemode liblz4-dev
           sudo apt install -y libglib2.0-dev libfuse2 patchelf
-          
-      - name: Install aqtinstall
-        run: pip install aqtinstall
-
-      - name: Install Qt6
-        run: aqt install-qt linux desktop 6.7.3 gcc_64 --modules qtbase qtmultimedia -O /home/runner/Qt
 
       - name: Git clone
         run: |
