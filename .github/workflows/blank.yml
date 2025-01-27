@@ -33,10 +33,6 @@ jobs:
           sudo apt install -y vulkan-tools
           sudo apt install -y gamemode liblz4-dev
           sudo apt install -y libglib2.0-dev libfuse2 patchelf
-          pip install aqtinstall --user
-          aqt install-qt linux desktop 6.7.3 gcc_64 -m qtbase qtmultimedia
-          export Qt6_DIR=$HOME/Qt/6.7.3/gcc_64/lib/cmake/Qt6
-          export CMAKE_PREFIX_PATH=$Qt6_DIR
 
 
       - name: Git clone
@@ -44,7 +40,7 @@ jobs:
           cd $HOME
           git clone --recursive https://git.citron-emu.org/Citron/Citron.git
 
-      - name: Build
+      - name: Build CMAKE
         run: |
           cd $HOME/Citron
           mkdir build
@@ -52,10 +48,13 @@ jobs:
           cmake .. -GNinja -DCITRON_USE_BUNDLED_VCPKG=ON -DCITRON_TESTS=OFF -DCITRON_USE_LLVM_DEMANGLE=OFF -DCMAKE_INSTALL_PREFIX=/usr
           ninja
           cd ..
+          
+      - name: Build AppImage
+        run: |
           $HOME/Citron/appimage-builder.sh citron $HOME/Citron/build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: EmuDeck-AppImage
+          name: citron-AppImage
           path: '**/*.AppImage'
